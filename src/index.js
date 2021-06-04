@@ -2,7 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 class App extends React.Component {
-  joke = null;
+
+  constructor() {
+    super();
+    
+    // default state
+    this.state = {
+      joke: null
+    };
+
+    // binding so that onClick references the componenet and not the button it was called from
+    this.onTellJoke = this.onTellJoke.bind(this);
+  }
 
   onTellJoke() {
     fetch("https://icanhazdadjoke.com/", {
@@ -13,8 +24,7 @@ class App extends React.Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        this.joke = json.joke;
-        console.log("joke", this.joke);
+        this.setState({ joke: json.joke })
       });
   }
 
@@ -22,7 +32,7 @@ class App extends React.Component {
     return (
       <div>
         <button onClick={this.onTellJoke}> Tell me a joke </button>
-        <p>{this.joke}</p>
+        <p>{this.state.joke}</p>
       </div>
     );
   }
