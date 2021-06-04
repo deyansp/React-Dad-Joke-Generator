@@ -2,10 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 class App extends React.Component {
-
   constructor() {
     super();
-    
+
     // default state
     this.state = {
       joke: null
@@ -15,7 +14,11 @@ class App extends React.Component {
     this.onTellJoke = this.onTellJoke.bind(this);
   }
 
-  onTellJoke() {
+  componentDidMount() {
+    this.fetchJoke();
+  }
+
+  fetchJoke() {
     fetch("https://icanhazdadjoke.com/", {
       method: "GET",
       headers: {
@@ -24,8 +27,12 @@ class App extends React.Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        this.setState({ joke: json.joke })
+        this.setState({ joke: json.joke });
       });
+  }
+
+  onTellJoke() {
+    this.fetchJoke();
   }
 
   render() {
