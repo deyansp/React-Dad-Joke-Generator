@@ -7,7 +7,8 @@ class App extends React.Component {
 
     // default state
     this.state = {
-      joke: null
+      joke: null,
+      isFetchingJoke: false
     };
 
     // binding so that onClick references the componenet and not the button it was called from
@@ -19,6 +20,8 @@ class App extends React.Component {
   }
 
   fetchJoke() {
+    this.setState({ isFetchingJoke: true });
+
     fetch("https://icanhazdadjoke.com/", {
       method: "GET",
       headers: {
@@ -27,7 +30,7 @@ class App extends React.Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        this.setState({ joke: json.joke });
+        this.setState({ joke: json.joke, isFetchingJoke: false });
       });
   }
 
@@ -38,8 +41,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.onTellJoke}> Tell me a joke </button>
-        <p>{this.state.joke}</p>
+        <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>
+          Tell me a joke
+        </button>
+        <p>{this.state.isFetchingJoke ? "Loading joke..." : this.state.joke}</p>
       </div>
     );
   }
