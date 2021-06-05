@@ -7,22 +7,24 @@ class App extends React.Component {
 
     // default state
     this.state = {
-      joke: null,
+      searchTerm: "",
+      jokes: [],
       isFetchingJoke: false
     };
 
-    // binding so that onClick references the componenet and not the button it was called from
-    this.onTellJoke = this.onTellJoke.bind(this);
+    // binding so that event calls reference the componenet and not the HTML element it was called from
+    this.searchJokes = this.searchJokes.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   componentDidMount() {
-    this.fetchJoke();
+    this.searchJokes();
   }
 
-  fetchJoke() {
+  searchJokes() {
     this.setState({ isFetchingJoke: true });
 
-    fetch("https://icanhazdadjoke.com/", {
+    fetch("https://icanhazdadjoke.com/search", {
       method: "GET",
       headers: {
         Accept: "application/json"
@@ -30,21 +32,35 @@ class App extends React.Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        this.setState({ joke: json.joke, isFetchingJoke: false });
+        const jokes = json.results;
+        this.setState({
+          jokes,
+          isFetchingJoke: false
+        });
       });
   }
 
   onTellJoke() {
-    this.fetchJoke();
+    this.searchJokes();
+  }
+
+  onSearchChange(event) {
+    this.setState({ searchTerm: event.target.value });
   }
 
   render() {
     return (
       <div>
-        <button onClick={this.onTellJoke} disabled={this.state.isFetchingJoke}>
-          Tell me a joke
-        </button>
-        <p>{this.state.isFetchingJoke ? "Loading joke..." : this.state.joke}</p>
+        <form>
+          <input type="text" placeholder="Enter words to search..." onChange={this.onSearchChange}/>
+          <button
+            onClick={this.searchJokes}
+            disabled={this.state.isFetchingJoke}
+          >
+            Tell me a joke
+          </button>
+        </form>
+        <p>{this.state.isFetchingJoke ? "Loading joke..." : this.state.jokes.toString()}</p>
       </div>
     );
   }
