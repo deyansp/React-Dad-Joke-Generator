@@ -14,16 +14,15 @@ class App extends React.Component {
 
     // binding so that event calls reference the componenet and not the HTML element it was called from
     this.searchJokes = this.searchJokes.bind(this);
-    this.onTellJoke = this.onTellJoke.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
-  searchJokes() {
+  searchJokes(limit = 20) {
     this.setState({ isFetchingJoke: true });
 
     fetch(
-      `https://icanhazdadjoke.com/search?term=${this.state.searchTerm}&limit=1`,
+      `https://icanhazdadjoke.com/search?term=${this.state.searchTerm}&limit=${limit}`,
       {
         method: "GET",
         headers: {
@@ -40,10 +39,6 @@ class App extends React.Component {
           isFetchingJoke: false
         });
       });
-  }
-
-  onTellJoke() {
-    this.searchJokes();
   }
 
   onSearchChange(event) {
@@ -78,7 +73,7 @@ class App extends React.Component {
           <button>Search</button>
 
           <button
-            onClick={this.onTellJoke}
+            onClick={() => this.searchJokes(1)}
             disabled={this.state.isFetchingJoke}
           >
             I'm feeling funny
