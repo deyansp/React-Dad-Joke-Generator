@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SearchForm from "./SearchForm";
+import SearchResultsList from "./SearchResultsList";
 import "./styles.css";
 
 class App extends React.Component {
@@ -11,7 +12,10 @@ class App extends React.Component {
     this.state = {
       searchTerm: "",
       jokes: [],
-      isFetchingJoke: false
+      isFetchingJoke: false,
+
+      // prevents the "No results" message from displaying when first loading the page
+      showResultsList: false
     };
 
     // binding so that event calls reference the componenet and not the HTML element it was called from
@@ -36,23 +40,14 @@ class App extends React.Component {
         const jokes = json.results;
         this.setState({
           jokes,
-          isFetchingJoke: false
+          isFetchingJoke: false,
+          showResultsList: true
         });
       });
   }
 
   onSearchChange(value) {
     this.setState({ searchTerm: value });
-  }
-
-  renderJokes() {
-    return (
-      <ul className="jokes-list">
-        {this.state.jokes.map((item) => (
-          <li key={item.id}>{item.joke}</li>
-        ))}
-      </ul>
-    );
   }
 
   render() {
@@ -66,9 +61,14 @@ class App extends React.Component {
           onSingleSearchClick={() => this.searchJokes(1)}
         ></SearchForm>
 
-        {this.state.isFetchingJoke
-          ? "Searching for jokes..."
-          : this.renderJokes()}
+        {this.state.isFetchingJoke ? (
+          "Searching for jokes..."
+        ) : (
+          <SearchResultsList
+            jokes={this.state.jokes}
+            showResults={this.state.showResultsList}
+          />
+        )}
       </div>
     );
   }
