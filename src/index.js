@@ -15,16 +15,13 @@ class App extends React.Component {
     // binding so that event calls reference the componenet and not the HTML element it was called from
     this.searchJokes = this.searchJokes.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.searchJokes();
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
   searchJokes() {
     this.setState({ isFetchingJoke: true });
 
-    fetch("https://icanhazdadjoke.com/search", {
+    fetch(`https://icanhazdadjoke.com/search?term=${this.state.searchTerm}`, {
       method: "GET",
       headers: {
         Accept: "application/json"
@@ -33,6 +30,7 @@ class App extends React.Component {
       .then((response) => response.json())
       .then((json) => {
         const jokes = json.results;
+        console.log("jokes", jokes);
         this.setState({
           jokes,
           isFetchingJoke: false
@@ -48,19 +46,35 @@ class App extends React.Component {
     this.setState({ searchTerm: event.target.value });
   }
 
+  onSearchSubmit(event) {
+    event.preventDefault();
+    this.searchJokes();
+  }
+
   render() {
     return (
       <div>
-        <form>
-          <input type="text" placeholder="Enter words to search..." onChange={this.onSearchChange}/>
+        <form onSubmit={this.onSearchSubmit}>
+          <input
+            type="text"
+            placeholder="Enter words to search..."
+            onChange={this.onSearchChange}
+          />
+
+          <button>Search</button>
+
           <button
-            onClick={this.searchJokes}
+            onClick={this.onTellJoke}
             disabled={this.state.isFetchingJoke}
           >
             Tell me a joke
           </button>
         </form>
-        <p>{this.state.isFetchingJoke ? "Loading joke..." : this.state.jokes.toString()}</p>
+        <p>
+          {this.state.isFetchingJoke
+            ? "Loading joke..."
+            : this.state.jokes.toString()}
+        </p>
       </div>
     );
   }
