@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import SearchForm from "./SearchForm";
 
 class App extends React.Component {
   constructor() {
@@ -63,22 +64,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.onSearchSubmit}>
-          <input
-            type="text"
-            placeholder="Enter words to search..."
-            onChange={this.onSearchChange}
-          />
-
-          <button>Search</button>
-
-          <button
-            onClick={() => this.searchJokes(1)}
-            disabled={this.state.isFetchingJoke}
-          >
-            I'm feeling funny
-          </button>
-        </form>
+        <SearchForm
+          onFormSubmit={this.onSearchSubmit}
+          onSearchValueChange={this.onSearchChange}
+          isSearching={this.isFetchingJoke}
+          onSingleSearchClick={() => this.searchJokes(1)}
+        ></SearchForm>
 
         {this.state.isFetchingJoke
           ? "Searching for jokes..."
