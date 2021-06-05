@@ -1,28 +1,18 @@
 import React from "react";
 import "./SearchResultsList.css";
 
-class SearchResultsList extends React.Component {
-  constructor(props) {
-    super();
+const SearchResultsList = (props) => {
+  return props.showResults ? (
+    <ul className="jokes-list">
+      {props.items.length > 0 ? (
+        props.items.map((item) => <li key={item.id}>{item.joke}</li>)
+      ) : (
+        <li>No results found.</li>
+      )}
+    </ul>
+  ) : (
+    ""
+  );
+};
 
-    this.state = {
-      items: props.jokes,
-      showResults: props.showResults
-    };
-  }
-
-  render() {
-    return this.state.showResults ? (
-      <ul className="jokes-list">
-        {this.state.items.length > 0 ? (
-          this.state.items.map((item) => <li key={item.id}>{item.joke}</li>)
-        ) : (
-          <li>No results found.</li>
-        )}
-      </ul>
-    ) : (
-      ""
-    );
-  }
-}
 export default SearchResultsList;

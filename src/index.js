@@ -65,7 +65,7 @@ class App extends React.Component {
           "Searching for jokes..."
         ) : (
           <SearchResultsList
-            jokes={this.state.jokes}
+            items={this.state.jokes}
             showResults={this.state.showResultsList}
           />
         )}
