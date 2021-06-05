@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SearchForm from "./SearchForm";
+import "./styles.css";
 
 class App extends React.Component {
   constructor() {
@@ -46,7 +47,7 @@ class App extends React.Component {
 
   renderJokes() {
     return (
-      <ul>
+      <ul className="jokes-list">
         {this.state.jokes.map((item) => (
           <li key={item.id}>{item.joke}</li>
         ))}
@@ -57,6 +58,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <img className="logo" src="google-dad-jokes-logo.png" />
         <SearchForm
           onFormSubmit={this.searchJokes}
           onSearchValueChange={this.onSearchChange}

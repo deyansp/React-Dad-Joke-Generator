@@ -1,4 +1,5 @@
 import React from "react";
+import "./SearchForm.css";
 
 const SearchForm = (props) => {
   // handle the submission event here instead of the App
@@ -8,18 +9,23 @@ const SearchForm = (props) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="search-form">
       <input
         type="text"
         placeholder="Enter words to search..."
         onChange={(event) => props.onSearchValueChange(event.target.value)}
       />
 
-      <button disabled={props.isSearching}>Search</button>
+      <div>
+        <button disabled={props.isSearching}>Search</button>
 
-      <button onClick={props.onSingleSearchClick} disabled={props.isSearching}>
-        I'm feeling funny
-      </button>
+        <button
+          onClick={props.onSingleSearchClick}
+          disabled={props.isSearching}
+        >
+          I'm feeling funny
+        </button>
+      </div>
     </form>
   );
 };
