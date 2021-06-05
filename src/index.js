@@ -16,7 +16,6 @@ class App extends React.Component {
     // binding so that event calls reference the componenet and not the HTML element it was called from
     this.searchJokes = this.searchJokes.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
-    this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
   searchJokes(limit = 20) {
@@ -42,13 +41,8 @@ class App extends React.Component {
       });
   }
 
-  onSearchChange(event) {
-    this.setState({ searchTerm: event.target.value });
-  }
-
-  onSearchSubmit(event) {
-    event.preventDefault();
-    this.searchJokes();
+  onSearchChange(value) {
+    this.setState({ searchTerm: value });
   }
 
   renderJokes() {
@@ -65,7 +59,7 @@ class App extends React.Component {
     return (
       <div>
         <SearchForm
-          onFormSubmit={this.onSearchSubmit}
+          onFormSubmit={this.searchJokes}
           onSearchValueChange={this.onSearchChange}
           isSearching={this.isFetchingJoke}
           onSingleSearchClick={() => this.searchJokes(1)}
