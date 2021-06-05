@@ -33,7 +33,6 @@ class App extends React.Component {
       .then((response) => response.json())
       .then((json) => {
         const jokes = json.results;
-        console.log("jokes", jokes);
         this.setState({
           jokes,
           isFetchingJoke: false
@@ -57,7 +56,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="App">
         <SearchForm
           onFormSubmit={this.searchJokes}
           onSearchValueChange={this.onSearchChange}
