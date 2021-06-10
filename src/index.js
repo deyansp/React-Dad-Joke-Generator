@@ -35,7 +35,12 @@ class App extends React.Component {
         }
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok)
+          throw new Error('Server response error: ' + response.status.toString());
+        else 
+          return response.json();
+      })
       .then((json) => {
         const jokes = json.results;
         this.setState({
@@ -43,6 +48,9 @@ class App extends React.Component {
           isFetchingJoke: false,
           showResultsList: true
         });
+      })
+      .catch((error) => {
+        alert("A Network Error has occurred. Please try again.");
       });
   }
 
