@@ -1,5 +1,5 @@
 # CodeSandBox Link
-![Live Demo](https://8qy0v.csb.app/)
+[Live Demo](https://8qy0v.csb.app/)
 
 # Overview
 A React web app that resembles the Google search engine and fetches up to 20 jokes from an [API](https://icanhazdadjoke.com) based on keywords from user input. The "I'm feeling funny" button prompts the app to display 1 joke which can be random or based on the text input.
